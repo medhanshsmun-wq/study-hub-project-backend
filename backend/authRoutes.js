@@ -15,10 +15,10 @@ router.get(
 
 router.get(
     '/auth/callback/google',
-    passport.authenticate('google', { failureRedirect: '/' }),
-    (req, res) => {
-        res.redirect('/'); // On success, redirect to the homepage. Frontend will handle the rest.
-    }
+    passport.authenticate('google', {
+        successRedirect: process.env.FRONTEND_URL, // Redirect to frontend on success
+        failureRedirect: `${process.env.FRONTEND_URL}/login?error=true` // Redirect to frontend on failure
+    })
 );
 
 router.get('/logout', (req, res, next) => {

@@ -45,6 +45,10 @@ app.use(cors({
 }));
 
 // Middleware
+// Trust the first proxy in front of the app (e.g., on Render, Vercel).
+// This is required for secure cookies to work correctly.
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(
     session({
@@ -94,6 +98,12 @@ apiRouter.get('/health', (req, res) => {
 
 // Mount the consolidated API router
 app.use('/api', apiRouter);
+
+// --- Final Error Handling Middleware ---
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
