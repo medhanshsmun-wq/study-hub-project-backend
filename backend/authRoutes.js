@@ -25,7 +25,7 @@ router.get('/logout', (req, res, next) => {
     // As of passport@0.6.0, req.logout() is now an asynchronous function.
     req.logout(function(err) {
         if (err) { return next(err); }
-        res.redirect('/');
+        res.redirect(process.env.FRONTEND_URL);
     });
 });
 
