@@ -59,9 +59,9 @@ app.use(
             mongoUrl: process.env.MONGO_URI 
         }),
         cookie: {
-            // In production, cookies must be secure and set for the cross-site domain.
-            // The .vercel.app domain requires the preceding dot.
-            domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
+            // Do not set the domain attribute. When omitted, browsers default to the host of the URL,
+            // which is correct. The cookie will be sent on cross-site requests because of SameSite=None.
+            // domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
             secure: process.env.NODE_ENV === 'production', 
             httpOnly: true, // Prevent client-side JS from accessing the cookie
             // sameSite must be 'none' for cross-site cookie requests.
