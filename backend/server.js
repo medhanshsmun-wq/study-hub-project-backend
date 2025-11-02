@@ -32,17 +32,17 @@ const allowedOrigins = [ // Filter out any falsy values like undefined
   "http://localhost:3000"   // for local testing
 ].filter(Boolean);
 
-
-
-app.use(
-  cors({
-    origin: ["https://study-hub-project-frontend.vercel.app", "http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-
-
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"], // Added methods from the other config
+  credentials: true,
+}));
 
 // Middleware
 app.use(express.json());
