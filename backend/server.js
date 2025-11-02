@@ -27,10 +27,10 @@ const PORT = process.env.PORT || 3000;
 
 // --- CORS Configuration for Production ---
 // This MUST be configured before your session and routes.
-const allowedOrigins = [
+const allowedOrigins = [ // Filter out any falsy values like undefined
   process.env.FRONTEND_URL, // your Vercel site
   "http://localhost:3000"   // for local testing
-];
+].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
