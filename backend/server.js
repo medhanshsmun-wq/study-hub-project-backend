@@ -4,7 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 const session = require('express-session');
-const cors = require('cors'); // Make sure cors is required
+const cors = require("cors"); // Make sure cors is required
 const passport = require('passport');
 
 
@@ -32,17 +32,16 @@ const allowedOrigins = [ // Filter out any falsy values like undefined
   "http://localhost:3000"   // for local testing
 ].filter(Boolean);
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("❌ CORS blocked origin:", origin);
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-}));
+
+
+app.use(
+  cors({
+    origin: ["https://study-hub-project-frontend.vercel.app", "http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 
 
 // Middleware
