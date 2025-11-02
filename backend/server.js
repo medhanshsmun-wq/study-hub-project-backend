@@ -37,7 +37,8 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      console.error(`❌ CORS error: Origin '${origin}' not allowed.`);
+      callback(new Error(`Origin '${origin}' not allowed by CORS`));
     }
   },
   methods: ["GET", "POST", "PUT", "DELETE"], // Added methods from the other config
