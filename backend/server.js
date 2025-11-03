@@ -62,11 +62,10 @@ app.use(
         cookie: {
             // Do not set the domain attribute. When omitted, browsers default to the host of the URL,
             // which is correct. The cookie will be sent on cross-site requests because of SameSite=None.
-            // domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
-            secure: process.env.NODE_ENV === 'production', 
+            secure: true, // Must be true for cross-site cookies.
             httpOnly: true, // Prevent client-side JS from accessing the cookie
-            // sameSite must be 'none' for cross-site cookie requests.
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', 
+            // 'none' is required to send cookies from the backend (Render) to the frontend (Vercel).
+            sameSite: 'none', 
             maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
         }
     })
