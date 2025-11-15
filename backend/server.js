@@ -67,7 +67,6 @@ app.use(
             process.exit(1);
         })(),
         // --- MODIFICATION END ---
-        secret: process.env.COOKIE_KEY,
         resave: false,
         saveUninitialized: false,
         store: MongoStore.create({ 
@@ -126,8 +125,8 @@ app.use((err, req, res, next) => {
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('MongoDB connected...');
-        app.listen(PORT, () => {
-            console.log(`🚀 Server is running on http://localhost:${PORT}`);
+        app.listen(PORT, "0.0.0.0", () => {
+            console.log(`🚀 Server running on port ${PORT}`);
         });
     })
     .catch(err => {
