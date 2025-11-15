@@ -32,16 +32,24 @@ const allowedOrigins = [ // Filter out any falsy values like undefined
   "http://localhost:3000"   // for local testing
 ].filter(Boolean);
 
+const vercelPreviewRegex = /^https:\/\/study-hub-project-frontend-.*\.vercel\.app$/;
+
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // Check if the origin is in the allowed list, or if it matches the Vercel preview pattern
+    if (allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
       callback(null, true);
     } else {
       console.error(`❌ CORS error: Origin '${origin}' not allowed.`);
       callback(new Error(`Origin '${origin}' not allowed by CORS`));
     }
   },
-  methods: ["GET", "POST", "PUT", "DELETE"], // Added methods from the other config
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
 
