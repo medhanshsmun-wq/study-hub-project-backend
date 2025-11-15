@@ -53,6 +53,12 @@ app.set('trust proxy', 1);
 app.use(express.json());
 app.use(
     session({
+        // --- MODIFICATION START: Add check for COOKIE_KEY ---
+        secret: process.env.COOKIE_KEY || (() => {
+            console.error('FATAL ERROR: COOKIE_KEY is not set. Please provide a secret in your environment.');
+            process.exit(1);
+        })(),
+        // --- MODIFICATION END ---
         secret: process.env.COOKIE_KEY,
         resave: false,
         saveUninitialized: false,
